@@ -29,6 +29,9 @@ const useFetch = (url) => {
                     setIsLoading(false)
                 })
         }, 1000)
+
+        return () => console.log("hi")
+
     }, [url])
 
     return { data, isLoading, error }
