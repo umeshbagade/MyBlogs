@@ -5,11 +5,26 @@ const Create = () => {
     const [title, setTitle] = useState("")
     const [author, setAuthor] = useState("umesh")
     const [body, setBody]   = useState("")
+    const [isLoading, setIsLoading] = useState(false)
+
+    const handleSubmit = (e) =>{
+        e.preventDefault()
+        setIsLoading(true)
+        const blog  = {title, body , author}
+
+        fetch('http://localhost:8000/blogs', {
+            method: 'POST',
+            headers:{ "Content-Type":"application/json"},
+            body: JSON.stringify(blog)
+        }).then(()=>{
+            setIsLoading(false) //data added
+        })
+    }
 
     return ( 
         <div className="create">
             <h2>Add a New Blog</h2>
-            <form >
+            <form onSubmit={handleSubmit} >
                 <label>Blog title:</label>
                 <input 
                     type="text"
@@ -40,7 +55,8 @@ const Create = () => {
                     <option value="vaishnav">Vaishnav</option>
                 </select>
 
-                <button>Add Blog</button>
+                {!isLoading && <button>Add Blog</button>}
+                {isLoading && <button disabled>Adding Data...</button>}
                 <br />
              
             </form>
